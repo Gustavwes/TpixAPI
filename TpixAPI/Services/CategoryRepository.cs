@@ -52,7 +52,7 @@ namespace TpixAPI.Services
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            
+            //test
            return await _context.Category.ToListAsync();
         }
 
