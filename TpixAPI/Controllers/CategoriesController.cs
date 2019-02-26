@@ -26,7 +26,6 @@ namespace TpixAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
-            //var categories = await _categoryRepository.GetAllCategories();
             return await _categoryRepository.GetAllCategoriesAsync();
         }
 
@@ -34,7 +33,7 @@ namespace TpixAPI.Controllers
         [HttpGet("{titleQuery}")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategoryByTitleQuery(string titleQuery)
         {
-            var results = await _categoryRepository.GetCategoriesByTitle(titleQuery);
+            var results = await _categoryRepository.GetCategoriesByTitleAsync(titleQuery);
             //var category = await _context.Category.FindAsync(id);
 
             if (results == null)
@@ -46,33 +45,10 @@ namespace TpixAPI.Controllers
         }
 
         // PUT: api/Categories/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        [HttpPut]
+        public async Task<ActionResult<bool>> UpdateCategory(Category category)
         {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await _categoryRepository.EditCategory(category);
         }
 
         // POST: api/Categories

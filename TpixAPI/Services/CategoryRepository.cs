@@ -25,7 +25,7 @@ namespace TpixAPI.Services
                 await _context.SaveChangesAsync();
             }
 
-            return categoryToAdd;
+            return category;
         }
         public bool CategoryExistsById(int id)
         {
@@ -35,9 +35,19 @@ namespace TpixAPI.Services
         {
             return _context.Category.Any(e => e.Title == title);
         }
-        public bool EditCategoryById(int id, string title, string imageUrl)
+        public async Task<bool>EditCategory(Category category)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Category.FindAsync(category.Id);
+            if (entity != null)
+            {
+                entity.ImageUrl = category.ImageUrl;
+                entity.Title = category.Title;
+                _context.Category.Update(entity);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<List<Category>> GetAllCategoriesAsync()
@@ -46,7 +56,7 @@ namespace TpixAPI.Services
            return await _context.Category.ToListAsync();
         }
 
-        public Task<List<Category>> GetCategoriesByTitle(string queryTitle)
+        public Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
             var test = _context.Category.Where(c => c.Title.Contains(queryTitle));
             return test.ToListAsync();
