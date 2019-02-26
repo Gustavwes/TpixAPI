@@ -15,7 +15,6 @@ namespace TpixAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly TpixContext _context;
 
         public CategoriesController(ICategoryRepository categoryRepository)
         {
@@ -48,7 +47,7 @@ namespace TpixAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<bool>> UpdateCategory(Category category)
         {
-            return await _categoryRepository.EditCategory(category);
+            return await _categoryRepository.EditCategoryAsync(category);
         }
 
         // POST: api/Categories
@@ -67,10 +66,6 @@ namespace TpixAPI.Controllers
 
             return category;
         }
-
-        private bool CategoryExists(int id)
-        {
-            return _context.Category.Any(e => e.Id == id);
-        }
+       
     }
 }

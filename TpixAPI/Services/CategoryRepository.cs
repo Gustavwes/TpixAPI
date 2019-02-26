@@ -35,7 +35,7 @@ namespace TpixAPI.Services
         {
             return _context.Category.Any(e => e.Title == title);
         }
-        public async Task<bool>EditCategory(Category category)
+        public async Task<bool>EditCategoryAsync(Category category)
         {
             var entity = await _context.Category.FindAsync(category.Id);
             if (entity != null)
@@ -60,11 +60,6 @@ namespace TpixAPI.Services
         {
             var test = _context.Category.Where(c => c.Title.Contains(queryTitle));
             return test.ToListAsync();
-        }
-
-        public Category GetCategoryByTitle(string title)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Category> RemoveCategoryByIdAsync(int id)

@@ -13,10 +13,9 @@ namespace TpixAPI.Services
         Task<Category> AddCategoryAsync(Category category);
         bool CategoryExistsById(int id);
         bool CategoryExistsByTitle(string title);
-        Task<bool> EditCategory(Category category);
+        Task<bool> EditCategoryAsync(Category category);
         Task<List<Category>> GetAllCategoriesAsync();
         Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle);
-        Category GetCategoryByTitle(string title);
         Task<Category> RemoveCategoryByIdAsync(int id);
     }
 }
