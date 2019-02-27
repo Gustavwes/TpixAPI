@@ -58,8 +58,8 @@ namespace TpixAPI.Services
 
         public Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
-            var test = _context.Category.Where(c => c.Title.Contains(queryTitle));
-            return test.ToListAsync();
+            var categoriesMatch = _context.Category.Where(c => c.Title.Contains(queryTitle));
+            return categoriesMatch.ToListAsync();
         }
 
         public async Task<Category> RemoveCategoryByIdAsync(int id)
