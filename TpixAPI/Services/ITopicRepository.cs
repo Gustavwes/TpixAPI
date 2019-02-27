@@ -9,11 +9,11 @@ namespace TpixAPI.Services
     public interface ITopicRepository
     {
         void AddTopic(Topic topic);
-        Topic GetTopicById(int id);
-        List<Post> GetAllPostsForTopicById(int topicId); //should be moved to posts repository
-        Task<Topic> RemoveTopicById(int id);
         Task<bool> EditTopic(Topic topic);
+        List<Post> GetAllPostsForTopicById(int topicId); //should be moved to posts repository
         List<Topic> GetAllTopicsForCategoryById(int id);
+        Topic GetTopicById(int id);
+        Task<Topic> RemoveTopicById(int id);
         bool Save();
     }
 }

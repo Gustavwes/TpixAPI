@@ -20,8 +20,6 @@ namespace TpixAPI.Controllers
             _context = context;
         }
 
-       
-
         // GET: api/Posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
