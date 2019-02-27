@@ -23,33 +23,6 @@ namespace TpixAPI.Services
             _context.SaveChanges();
         }
 
-        //public List<Post> GetAllPostsForTopicById(int topicId)
-        //{
-        //    return _context.Topic.Where(x => x.Id == topicId)
-        //        .SelectMany(topic => topic.Post)
-        //        .OrderBy(post => post.DatePosted)
-        //        .ToList();
-        //}
-
-        public Topic GetTopicById(int id)
-        {
-            return _context.Topic.Find(id);
-        }
-        public async Task<Topic> RemoveTopicById(int id)
-        {
-            var topic = await _context.Topic.FindAsync(id);
-            if (topic == null)
-            {
-                return new Topic();
-            }
-
-            _context.Topic.Remove(topic);
-            await _context.SaveChangesAsync();
-
-            return topic;
-
-        }
-
         public async Task<bool> EditTopic(Topic topic)
         {
             var entity = await _context.Topic.FindAsync(topic.Id);
@@ -75,6 +48,25 @@ namespace TpixAPI.Services
                 .ToList();
             return matchingTopics;
         }
+        public Topic GetTopicById(int id)
+        {
+            return _context.Topic.Find(id);
+        }
+        public async Task<Topic> RemoveTopicById(int id)
+        {
+            var topic = await _context.Topic.FindAsync(id);
+            if (topic == null)
+            {
+                return new Topic();
+            }
+
+            _context.Topic.Remove(topic);
+            await _context.SaveChangesAsync();
+
+            return topic;
+
+        }
+
 
         public bool Save()
         {
