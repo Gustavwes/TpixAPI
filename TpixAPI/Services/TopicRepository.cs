@@ -20,16 +20,34 @@ namespace TpixAPI.Services
         {
             topic.DatePosted = DateTime.UtcNow;
             _context.Topic.Add(topic);
+            _context.SaveChanges();
         }
 
-        public List<Post> GetAllPostsForTopicById(int topicId)
+        public async Task<bool> EditTopic(Topic topic)
         {
-            return _context.Topic.Where(x => x.Id == topicId)
-                .SelectMany(topic => topic.Post)
-                .OrderBy(post => post.DatePosted)
-                .ToList();
+            var entity = await _context.Topic.FindAsync(topic.Id);
+            if (entity != null)
+            {
+                entity.ImageUrl = topic.ImageUrl;
+                entity.Title = topic.Title;
+                entity.CategoryId = topic.CategoryId;
+                _context.Topic.Update(topic);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
+        public List<Topic> GetAllTopicsForCategoryById(int id)
+        {
+            var matchingTopics = _context.Category
+                    .Where(c => c.Id == id)
+                .SelectMany(category => category.Topic)
+                .OrderBy(topic => topic.DatePosted)
+                .ToList();
+            return matchingTopics;
+        }
         public Topic GetTopicById(int id)
         {
             return _context.Topic.Find(id);
@@ -49,30 +67,6 @@ namespace TpixAPI.Services
 
         }
 
-        public async Task<bool> EditTopic(Topic topic)
-        {
-            var entity = await _context.Topic.FindAsync(topic.Id);
-            if (entity != null)
-            {
-                entity.ImageUrl = topic.ImageUrl;
-                entity.Title = topic.Title;
-                entity.CategoryId = topic.CategoryId;
-                _context.Topic.Update(topic); 
-                return true;
-            }
-
-            return false;
-        }
-
-        public List<Topic> GetAllTopicsForCategoryById(int id)
-        {
-            var matchingTopics = _context.Category
-                    .Where(c => c.Id == id)
-                .SelectMany(category => category.Topic)
-                .OrderBy(topic => topic.DatePosted)
-                .ToList();
-            return matchingTopics;
-        }
 
         public bool Save()
         {

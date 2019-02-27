@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
 {
@@ -13,88 +14,53 @@ namespace TpixAPI.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly TpixContext _context;
+        private readonly IPostRepository _postRepository;
 
-        public PostsController(TpixContext context)
+        public PostsController(TpixContext context, IPostRepository postRepository)
         {
-            _context = context;
+            _postRepository = postRepository;
         }
-
-       
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        public ActionResult<Post> GetPostById(int id)
         {
-            var post = await _context.Post.FindAsync(id);
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
+            var post = _postRepository.GetPostById(id);
             return post;
         }
 
-        // PUT: api/Posts/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, Post post)
+        // GET: api/posts/GetPostsForTopic/{topicid}
+        [HttpGet("GetPostsForTopic/{topicid}")]
+        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic(int topicId)
         {
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
+            return _postRepository.GetAllPostsForTopicById(topicId);
+        }
 
-            _context.Entry(post).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+        // PUT: api/Posts/
+        [HttpPut]
+        public async Task<bool> EditPost(Post post)
+        {
+            return await _postRepository.EditPost(post); 
         }
 
         // POST: api/Posts
         [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
+        public ActionResult<Post> AddPost(Post post)
         {
-            _context.Post.Add(post);
-            await _context.SaveChangesAsync();
+            _postRepository.AddPost(post);
 
-            return CreatedAtAction("GetPost", new { id = post.Id }, post);
+            return CreatedAtAction("GetPostById", new { id = post.Id }, post);
         }
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> DeletePost(int id)
         {
-            var post = await _context.Post.FindAsync(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            _context.Post.Remove(post);
-            await _context.SaveChangesAsync();
+            var post = await _postRepository.RemovePostById(id);
 
             return post;
         }
 
-        private bool PostExists(int id)
-        {
-            return _context.Post.Any(e => e.Id == id);
-        }
+
     }
 }
