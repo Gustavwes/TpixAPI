@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TpixAPI.Models
 {
@@ -14,6 +15,7 @@ namespace TpixAPI.Models
         public string Title { get; set; }
         public string ImageUrl { get; set; }
         public DateTime? DatePosted { get; set; }
+        [Required]
         public int CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
