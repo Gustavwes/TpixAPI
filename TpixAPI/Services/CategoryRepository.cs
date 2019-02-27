@@ -18,8 +18,8 @@ namespace TpixAPI.Services
         }
         public async Task<Category> AddCategoryAsync(Category category)
         {
-            var categoryToAdd = new Category(){ImageUrl = category.ImageUrl, Title = category.Title};
-            if(!CategoryExistsByTitle(category.Title))
+            var categoryToAdd = new Category { ImageUrl = category.ImageUrl, Title = category.Title };
+            if (!CategoryExistsByTitle(category.Title))
             {
                 _context.Category.Add(categoryToAdd);
                 await _context.SaveChangesAsync();
@@ -35,7 +35,7 @@ namespace TpixAPI.Services
         {
             return _context.Category.Any(e => e.Title == title);
         }
-        public async Task<bool>EditCategoryAsync(Category category)
+        public async Task<bool> EditCategoryAsync(Category category)
         {
             var entity = await _context.Category.FindAsync(category.Id);
             if (entity != null)
@@ -52,14 +52,14 @@ namespace TpixAPI.Services
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            
-           return await _context.Category.ToListAsync();
+            //test
+            return await _context.Category.ToListAsync();
         }
 
         public Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
-            var test = _context.Category.Where(c => c.Title.Contains(queryTitle));
-            return test.ToListAsync();
+            var matchingCategories = _context.Category.Where(c => c.Title.Contains(queryTitle));
+            return matchingCategories.ToListAsync();
         }
 
         public async Task<Category> RemoveCategoryByIdAsync(int id)
@@ -75,7 +75,7 @@ namespace TpixAPI.Services
 
             return category;
         }
-       
+
 
     }
 }

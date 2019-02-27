@@ -20,12 +20,7 @@ namespace TpixAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Posts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPost()
-        {
-            return await _context.Post.ToListAsync();
-        }
+       
 
         // GET: api/Posts/5
         [HttpGet("{id}")]

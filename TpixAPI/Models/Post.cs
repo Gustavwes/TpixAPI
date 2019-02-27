@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TpixAPI.Models
 {
@@ -7,6 +8,7 @@ namespace TpixAPI.Models
     {
         public int Id { get; set; }
         public string Content { get; set; }
+        [Required]
         public int TopicId { get; set; }
         public DateTime DatePosted { get; set; }
 
