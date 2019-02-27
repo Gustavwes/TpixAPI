@@ -28,7 +28,7 @@ namespace TpixAPI.Controllers
             return await _categoryRepository.GetAllCategoriesAsync();
         }
 
-        // GET: api/Categories/5
+        // GET: api/Categories/query
         [HttpGet("{titleQuery}")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategoryByTitleQuery(string titleQuery)
         {
@@ -43,7 +43,7 @@ namespace TpixAPI.Controllers
             return results;
         }
 
-        // PUT: api/Categories/5
+        // PUT: api/Categories
         [HttpPut]
         public async Task<ActionResult<bool>> UpdateCategory(Category category)
         {
