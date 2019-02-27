@@ -20,15 +20,16 @@ namespace TpixAPI.Services
         {
             topic.DatePosted = DateTime.UtcNow;
             _context.Topic.Add(topic);
+            _context.SaveChanges();
         }
 
-        public List<Post> GetAllPostsForTopicById(int topicId)
-        {
-            return _context.Topic.Where(x => x.Id == topicId)
-                .SelectMany(topic => topic.Post)
-                .OrderBy(post => post.DatePosted)
-                .ToList();
-        }
+        //public List<Post> GetAllPostsForTopicById(int topicId)
+        //{
+        //    return _context.Topic.Where(x => x.Id == topicId)
+        //        .SelectMany(topic => topic.Post)
+        //        .OrderBy(post => post.DatePosted)
+        //        .ToList();
+        //}
 
         public Topic GetTopicById(int id)
         {
@@ -57,7 +58,8 @@ namespace TpixAPI.Services
                 entity.ImageUrl = topic.ImageUrl;
                 entity.Title = topic.Title;
                 entity.CategoryId = topic.CategoryId;
-                _context.Topic.Update(topic); 
+                _context.Topic.Update(topic);
+                _context.SaveChanges();
                 return true;
             }
 

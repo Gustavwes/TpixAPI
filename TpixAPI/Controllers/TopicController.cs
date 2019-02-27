@@ -28,11 +28,11 @@ namespace TpixAPI.Controllers
         }
 
         // GET: api/topic/GetTopicPost/{topicid}
-        [HttpGet("GetTopicPost/{topicid}")]
-        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic(int topicId)
-        {
-            return  _topicRepository.GetAllPostsForTopicById(topicId);
-        }
+        //[HttpGet("GetTopicPost/{topicid}")]
+        //public ActionResult<IEnumerable<Post>> GetAllPostsForTopic(int topicId)
+        //{
+        //    return  _topicRepository.GetAllPostsForTopicById(topicId);
+        //}
 
         //POST api/topic
         [HttpPost]

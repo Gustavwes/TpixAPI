@@ -6,14 +6,14 @@ using TpixAPI.Models;
 
 namespace TpixAPI.Services
 {
-    interface IPostRepository
+    public interface IPostRepository
     {
         void AddPost(Post post);
-        void EditPost(Post post);
+        Task<bool> EditPost(Post post);
         List<Post> GetAllPostsForTopicById(int topicId);
-        void GetPostById(int id);
+        Post GetPostById(int id);
         List<Post> GetPostsByQuery(string postQuery);
-        void RemovePostById(int id);
+        Task<Post> RemovePostById(int id);
 
     }
 }

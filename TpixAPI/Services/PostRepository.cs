@@ -8,34 +8,64 @@ namespace TpixAPI.Services
 {
     public class PostRepository : IPostRepository
     {
+        private readonly TpixContext _context;
+
+        public PostRepository(TpixContext context)
+        {
+            _context = context;
+        }
         public void AddPost(Post post)
         {
-            throw new NotImplementedException();
+            post.DatePosted = DateTime.UtcNow;
+            _context.Post.Add(post);
+            _context.SaveChanges();
         }
 
-        public void EditPost(Post post)
+        public async Task<bool> EditPost(Post post)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Post.FindAsync(post.Id);
+            if (entity != null)
+            {
+                //should probably add a date for "Date Modified" to make it clearer when showing post
+                entity.Content = post.Content;
+                entity.TopicId = post.TopicId;
+                _context.Post.Update(entity);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
         public List<Post> GetAllPostsForTopicById(int topicId)
         {
-            throw new NotImplementedException();
+            return _context.Topic.Where(x => x.Id == topicId)
+                .SelectMany(topic => topic.Post)
+                .OrderBy(post => post.DatePosted)
+                .ToList();
         }
 
-        public void GetPostById(int id)
+        public Post GetPostById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Post.Find(id);
         }
 
         public List<Post> GetPostsByQuery(string postQuery)
         {
-            throw new NotImplementedException();
+            return _context.Post.Where(post => post.Content.Contains(postQuery)).ToList();
         }
 
-        public void RemovePostById(int id)
+        public async Task<Post> RemovePostById(int id)
         {
-            throw new NotImplementedException();
+            var post = await _context.Post.FindAsync(id);
+            if (post == null)
+            {
+                return new Post();
+            }
+            _context.Post.Remove(post);
+            await _context.SaveChangesAsync();
+            //return post for confirmation to user
+            return post;
         }
     }
 }
