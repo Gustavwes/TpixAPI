@@ -28,8 +28,11 @@ namespace TpixAPI.Services
             var entity = await _context.Topic.FindAsync(topic.Id);
             if (entity != null)
             {
-                entity.Title = topic.Title;
+                entity.EditedAt = DateTime.UtcNow;
                 entity.FkCategoryId = topic.FkCategoryId;
+                entity.ImgUrl = topic.ImgUrl;
+                entity.MainBody = topic.MainBody;
+                entity.Title = topic.Title;
                 _context.Topic.Update(topic);
                 _context.SaveChanges();
                 return true;

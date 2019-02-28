@@ -18,10 +18,10 @@ namespace TpixAPI.Services
         }
         public async Task<Category> AddCategoryAsync(Category category)
         {
-            var categoryToAdd = new Category { ImgUrl = category.ImgUrl, Title = category.Title };
+
             if (!CategoryExistsByTitle(category.Title))
             {
-                _context.Category.Add(categoryToAdd);
+                _context.Category.Add(category);
                 await _context.SaveChangesAsync();
             }
 
@@ -40,6 +40,7 @@ namespace TpixAPI.Services
             var entity = await _context.Category.FindAsync(category.Id);
             if (entity != null)
             {
+                entity.Description = category.Description;
                 entity.ImgUrl = category.ImgUrl;
                 entity.Title = category.Title;
                 _context.Category.Update(entity);
@@ -52,7 +53,6 @@ namespace TpixAPI.Services
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            //test
             return await _context.Category.ToListAsync();
         }
 
