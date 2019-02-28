@@ -62,10 +62,10 @@ namespace TpixAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Category>> DeleteCategory(int id)
         {
-            var category = await _categoryRepository.RemoveCategoryByIdAsync(id); 
+            var category = await _categoryRepository.RemoveCategoryByIdAsync(id);
 
             return category;
         }
-       
+
     }
 }

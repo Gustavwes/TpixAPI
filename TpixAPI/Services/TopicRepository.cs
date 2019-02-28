@@ -18,7 +18,7 @@ namespace TpixAPI.Services
         }
         public void AddTopic(Topic topic)
         {
-            topic.DatePosted = DateTime.UtcNow;
+            topic.CreatedAt = DateTime.UtcNow;
             _context.Topic.Add(topic);
             _context.SaveChanges();
         }
@@ -28,9 +28,8 @@ namespace TpixAPI.Services
             var entity = await _context.Topic.FindAsync(topic.Id);
             if (entity != null)
             {
-                entity.ImageUrl = topic.ImageUrl;
                 entity.Title = topic.Title;
-                entity.CategoryId = topic.CategoryId;
+                entity.FkCategoryId = topic.FkCategoryId;
                 _context.Topic.Update(topic);
                 _context.SaveChanges();
                 return true;
@@ -44,7 +43,7 @@ namespace TpixAPI.Services
             var matchingTopics = _context.Category
                     .Where(c => c.Id == id)
                 .SelectMany(category => category.Topic)
-                .OrderBy(topic => topic.DatePosted)
+                .OrderBy(topic => topic.CreatedAt)
                 .ToList();
             return matchingTopics;
         }

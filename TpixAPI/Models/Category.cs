@@ -12,8 +12,11 @@ namespace TpixAPI.Models
 
         public int Id { get; set; }
         public string Title { get; set; }
-        public string ImageUrl { get; set; }
+        public string Description { get; set; }
+        public string ImgUrl { get; set; }
+        public int FkCreatedBy { get; set; }
 
+        public virtual Member FkCreatedByNavigation { get; set; }
         public virtual ICollection<Topic> Topic { get; set; }
     }
 }

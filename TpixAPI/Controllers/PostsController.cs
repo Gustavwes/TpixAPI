@@ -40,7 +40,7 @@ namespace TpixAPI.Controllers
         [HttpPut]
         public async Task<bool> EditPost(Post post)
         {
-            return await _postRepository.EditPost(post); 
+            return await _postRepository.EditPost(post);
         }
 
         // POST: api/Posts

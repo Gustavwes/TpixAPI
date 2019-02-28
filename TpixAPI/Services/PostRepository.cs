@@ -16,7 +16,7 @@ namespace TpixAPI.Services
         }
         public void AddPost(Post post)
         {
-            post.DatePosted = DateTime.UtcNow;
+            post.CreatedAt = DateTime.UtcNow;
             _context.Post.Add(post);
             _context.SaveChanges();
         }
@@ -27,8 +27,8 @@ namespace TpixAPI.Services
             if (entity != null)
             {
                 //should probably add a date for "Date Modified" to make it clearer when showing post
-                entity.Content = post.Content;
-                entity.TopicId = post.TopicId;
+                entity.MainBody = post.MainBody;
+                entity.FkParentTopicId = post.FkParentTopicId;
                 _context.Post.Update(entity);
                 _context.SaveChanges();
                 return true;
@@ -41,7 +41,7 @@ namespace TpixAPI.Services
         {
             return _context.Topic.Where(x => x.Id == topicId)
                 .SelectMany(topic => topic.Post)
-                .OrderBy(post => post.DatePosted)
+                .OrderBy(post => post.CreatedAt)
                 .ToList();
         }
 
@@ -52,7 +52,7 @@ namespace TpixAPI.Services
 
         public List<Post> GetPostsByQuery(string postQuery)
         {
-            return _context.Post.Where(post => post.Content.Contains(postQuery)).ToList();
+            return _context.Post.Where(post => post.MainBody.Contains(postQuery)).ToList();
         }
 
         public async Task<Post> RemovePostById(int id)
