@@ -26,9 +26,9 @@ namespace TpixAPI.Services
             var entity = await _context.Post.FindAsync(post.Id);
             if (entity != null)
             {
-                //should probably add a date for "Date Modified" to make it clearer when showing post
-                entity.MainBody = post.MainBody;
+                entity.EditedAt = DateTime.UtcNow;
                 entity.FkParentTopicId = post.FkParentTopicId;
+                entity.MainBody = post.MainBody;
                 _context.Post.Update(entity);
                 _context.SaveChanges();
                 return true;
