@@ -16,7 +16,7 @@ namespace TpixAPI.Controllers
     {
         private readonly IPostRepository _postRepository;
 
-        public PostsController(TpixContext context, IPostRepository postRepository)
+        public PostsController(IPostRepository postRepository)
         {
             _postRepository = postRepository;
         }
