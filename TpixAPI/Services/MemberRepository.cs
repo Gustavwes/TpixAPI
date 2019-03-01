@@ -40,7 +40,7 @@ namespace TpixAPI.Services
         }
 
         public async Task<Member> RemoveMemberById(int id)
-        {
+        {   
             var member = await _context.Member.FindAsync(id);
             if (member == null)
             {

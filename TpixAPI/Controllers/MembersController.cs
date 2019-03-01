@@ -50,7 +50,7 @@ namespace TpixAPI.Controllers
 
         //// PUT: api/Members
         [HttpPut]
-        public async Task<IActionResult> PutMember(Member member)
+        public async Task<IActionResult> EditMember(Member member)
         {
             await _memberRepository.EditMember(member);
 

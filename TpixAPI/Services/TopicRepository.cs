@@ -33,9 +33,9 @@ namespace TpixAPI.Services
                 entity.ImgUrl = topic.ImgUrl;
                 entity.MainBody = topic.MainBody;
                 entity.Title = topic.Title;
-                _context.Topic.Update(topic);
+                var test =_context.Topic.Update(topic);
                 _context.SaveChanges();
-                return true;
+                return test.State == EntityState.Modified; //on success it returns true, else false
             }
 
             return false;
