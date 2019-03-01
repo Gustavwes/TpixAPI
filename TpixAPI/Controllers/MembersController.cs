@@ -23,11 +23,11 @@ namespace TpixAPI.Controllers
 
 
         //// GET: api/Members
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Member>>> GetMember()
-        //{
-        //    return await _context.Member.ToListAsync();
-        //}
+        [HttpGet]
+        public ActionResult<List<Member>> GetAllMembers()
+        {
+            return _memberRepository.GetAllMembers();
+        }
 
         // GET: api/Members/5
         [HttpGet("{id}")]
@@ -43,6 +43,7 @@ namespace TpixAPI.Controllers
         }
 
         // GET: api/Members
+        [HttpGet("SearchMembers/")]
         public ActionResult<List<Member>> SearchMembers(Member member) //send object with username and/or email
         {
             return _memberRepository.SearchMembers(member);
@@ -50,11 +51,9 @@ namespace TpixAPI.Controllers
 
         //// PUT: api/Members
         [HttpPut]
-        public async Task<IActionResult> EditMember(Member member)
+        public async Task<ActionResult<bool>> EditMember(Member member)
         {
-            await _memberRepository.EditMember(member);
-
-            return NoContent();
+            return await _memberRepository.EditMember(member); 
         }
 
         // POST: api/Members

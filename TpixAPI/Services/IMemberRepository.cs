@@ -10,6 +10,7 @@ namespace TpixAPI.Services
     {
         void CreateMember(Member member);
         Member GetMember(int id);
+        List<Member> GetAllMembers();
         Task<bool> EditMember(Member member);
         Task<Member> RemoveMemberById(int id);
         List<Member> SearchMembers(Member member);

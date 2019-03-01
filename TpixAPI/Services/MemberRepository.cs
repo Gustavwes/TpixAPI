@@ -19,6 +19,10 @@ namespace TpixAPI.Services
             _context.SaveChanges();
         }
 
+        public List<Member> GetAllMembers() //will need some kind of pagination here skip/take etc.
+        {
+            return _context.Member.ToList();
+        }
         public Member GetMember(int id)
         {
             return _context.Member.Find(id);
@@ -55,7 +59,7 @@ namespace TpixAPI.Services
 
         public List<Member> SearchMembers(Member member)
         {
-            return _context.Member.Where(m => m.Username.ToLower().Contains(member.Username.ToLower()) && m.Email.ToLower().Contains(member.Email.ToLower()))
+            return _context.Member.Where(m => m.Username.ToLower().Contains((member.Username ?? "").ToLower()) && m.Email.ToLower().Contains((member.Email ?? "").ToLower()))
                 .ToList();
         }
     }
