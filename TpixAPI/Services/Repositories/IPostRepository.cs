@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 
-namespace TpixAPI.Services
+namespace TpixAPI.Services.Repositories
 {
     public interface IPostRepository
     {

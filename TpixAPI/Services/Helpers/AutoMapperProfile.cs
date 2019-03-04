@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 
-namespace TpixAPI.Services
+namespace TpixAPI.Services.Helpers
 {
     public class AutoMapperProfile : Profile
     {

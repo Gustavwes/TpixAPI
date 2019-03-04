@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
 using TpixAPI.Models.Requests;
 using TpixAPI.Services;
+using TpixAPI.Services.Repositories;
 
 namespace TpixAPI.Controllers
 {

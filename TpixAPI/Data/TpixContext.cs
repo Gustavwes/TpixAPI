@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TpixAPI.Models.Database;
 
-namespace TpixAPI.Models
+namespace TpixAPI.Data
 {
     public partial class TpixContext : DbContext
     {

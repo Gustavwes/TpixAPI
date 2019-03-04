@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TpixAPI.Data;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Services;
 
-namespace TpixAPI.For_Testing
+namespace TpixAPI.Services.Helpers.For_Testing
 {
     public static class FirstStartTestDataGenerator
     {

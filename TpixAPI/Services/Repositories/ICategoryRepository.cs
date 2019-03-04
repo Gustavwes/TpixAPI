@@ -5,9 +5,10 @@ using System.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 
-namespace TpixAPI.Services
+namespace TpixAPI.Services.Repositories
 {
     public interface ICategoryRepository
     {

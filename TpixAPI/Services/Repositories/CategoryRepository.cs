@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TpixAPI.Data;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 
-namespace TpixAPI.Services
+namespace TpixAPI.Services.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

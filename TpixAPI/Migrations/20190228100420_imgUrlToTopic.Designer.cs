@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TpixAPI.Models;
-
+using TpixAPI.Data;
 namespace TpixAPI.Migrations
 {
     [DbContext(typeof(TpixContext))]

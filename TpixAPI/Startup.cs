@@ -15,6 +15,8 @@ using TpixAPI.Models;
 using TpixAPI.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
+using TpixAPI.Data;
+using TpixAPI.Services.Repositories;
 
 namespace TpixAPI
 {

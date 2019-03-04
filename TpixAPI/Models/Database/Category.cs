@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TpixAPI.Models
+namespace TpixAPI.Models.Database
 {
     public partial class Category
     {

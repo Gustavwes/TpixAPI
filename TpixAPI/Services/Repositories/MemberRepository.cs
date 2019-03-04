@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TpixAPI.Data;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 
-namespace TpixAPI.Services
+namespace TpixAPI.Services.Repositories
 {
     public class MemberRepository : IMemberRepository
     {
-        private TpixContext _context;
+        private readonly TpixContext _context;
         public MemberRepository(TpixContext context)
         {
             _context = context;
