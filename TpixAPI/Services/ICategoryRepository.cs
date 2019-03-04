@@ -17,5 +17,6 @@ namespace TpixAPI.Services
         Task<List<Category>> GetAllCategoriesAsync();
         Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle);
         Task<Category> RemoveCategoryByIdAsync(int id);
+        Category GetCategoryById(int id);
     }
 }

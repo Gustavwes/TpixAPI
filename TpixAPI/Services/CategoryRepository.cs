@@ -56,6 +56,10 @@ namespace TpixAPI.Services
             return await _context.Category.ToListAsync();
         }
 
+        public Category GetCategoryById(int categoryId)
+        {
+            return _context.Category.FirstOrDefault(c => c.Id == categoryId);
+        }
         public Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
             var matchingCategories = _context.Category.Where(c => c.Title.Contains(queryTitle));
