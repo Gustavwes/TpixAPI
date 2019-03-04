@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,12 @@ namespace TpixAPI.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
+        private readonly IMapper _mapper;
 
-        public PostsController(IPostRepository postRepository)
+        public PostsController(IPostRepository postRepository, IMapper mapper)
         {
             _postRepository = postRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Posts/5
@@ -32,9 +35,9 @@ namespace TpixAPI.Controllers
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetPostsForTopic/{topicid}")]
-        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic([FromRoute]int topicId)
+        public ActionResult<List<PostRequest>> GetAllPostsForTopic([FromRoute]int topicId)
         {
-            return _postRepository.GetAllPostsForTopicById(topicId);
+            return _mapper.Map<List<PostRequest>>(_postRepository.GetAllPostsForTopicById(topicId));
         }
 
         // PUT: api/Posts/

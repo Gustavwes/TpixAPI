@@ -43,6 +43,19 @@ namespace TpixAPI.Controllers
 
             return results;
         }
+        [HttpGet("GetCategoryById/{id}")]
+        public  ActionResult<Category> GetCategoryById([FromRoute]int id)
+        {
+            var result = _categoryRepository.GetCategoryById(id);
+            //var category = await _context.Category.FindAsync(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return result;
+        }
 
         // PUT: api/Categories
         [HttpPut]
