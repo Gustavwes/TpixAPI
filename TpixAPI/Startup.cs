@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TpixAPI.Models;
 using TpixAPI.Services;
+using Swashbuckle.AspNetCore.Swagger;
+using AutoMapper;
 
 namespace TpixAPI
 {
@@ -38,8 +40,12 @@ namespace TpixAPI
         {
             services.AddDbContext<TpixContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Tpix API", Version = "v1" });
+            });
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITopicRepository, TopicRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
@@ -58,7 +64,11 @@ namespace TpixAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tpix API V1");
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
@@ -15,38 +17,42 @@ namespace TpixAPI.Controllers
     public class PostsController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
+        private readonly IMapper _mapper;
 
-        public PostsController(IPostRepository postRepository)
+        public PostsController(IPostRepository postRepository, IMapper mapper)
         {
             _postRepository = postRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public ActionResult<Post> GetPostById(int id)
+        public ActionResult<PostRequest> GetPostById([FromRoute]int id)
         {
             var post = _postRepository.GetPostById(id);
-            return post;
+            return _mapper.Map<PostRequest>(post);
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetPostsForTopic/{topicid}")]
-        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic(int topicId)
+        public ActionResult<List<PostRequest>> GetAllPostsForTopic([FromRoute]int topicId)
         {
-            return _postRepository.GetAllPostsForTopicById(topicId);
+            return _mapper.Map<List<PostRequest>>(_postRepository.GetAllPostsForTopicById(topicId));
         }
 
         // PUT: api/Posts/
         [HttpPut]
-        public async Task<bool> EditPost(Post post)
+        public async Task<bool> EditPost([FromBody]PostRequest post)
         {
             return await _postRepository.EditPost(post);
         }
 
         // POST: api/Posts
         [HttpPost]
-        public ActionResult<Post> AddPost(Post post)
+        public ActionResult<PostRequest> AddPost([FromBody]PostRequest post)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _postRepository.AddPost(post);
 
             return CreatedAtAction("GetPostById", new { id = post.Id }, post);
@@ -54,11 +60,11 @@ namespace TpixAPI.Controllers
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> DeletePost(int id)
+        public async Task<ActionResult<PostRequest>> DeletePost([FromRoute]int id)
         {
             var post = await _postRepository.RemovePostById(id);
 
-            return post;
+            return _mapper.Map<PostRequest>(post);
         }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 
 namespace TpixAPI.Services
 {
@@ -13,9 +14,9 @@ namespace TpixAPI.Services
         {
             _context = context;
         }
-        public void CreateMember(Member member)
+        public void CreateMember(MemberRequest member)
         {
-            _context.Member.Add(member);
+            _context.Member.Add(new Member(){Email = member.Email, Username = member.Username});
             _context.SaveChanges();
         }
 
@@ -28,7 +29,7 @@ namespace TpixAPI.Services
             return _context.Member.Find(id);
         }
 
-        public async Task<bool> EditMember(Member member)
+        public async Task<bool> EditMember(MemberRequest member)
         {
             var entity =  await _context.Member.FindAsync(member.Id);
             if (entity != null)
@@ -57,7 +58,7 @@ namespace TpixAPI.Services
             return member;
         }
 
-        public List<Member> SearchMembers(Member member)
+        public List<Member> SearchMembers(MemberRequest member)
         {
             return _context.Member.Where(m => m.Username.ToLower().Contains((member.Username ?? "").ToLower()) && m.Email.ToLower().Contains((member.Email ?? "").ToLower()))
                 .ToList();

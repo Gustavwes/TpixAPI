@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 
 namespace TpixAPI.Services
 {
     public interface IPostRepository
     {
-        void AddPost(Post post);
-        Task<bool> EditPost(Post post);
+        void AddPost(PostRequest post);
+        Task<bool> EditPost(PostRequest post);
         List<Post> GetAllPostsForTopicById(int topicId);
         Post GetPostById(int id);
         List<Post> GetPostsByQuery(string postQuery);
