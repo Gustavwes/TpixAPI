@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
@@ -38,14 +39,14 @@ namespace TpixAPI.Controllers
 
         // PUT: api/Posts/
         [HttpPut]
-        public async Task<bool> EditPost([FromBody]Post post)
+        public async Task<bool> EditPost([FromBody]PostRequest post)
         {
             return await _postRepository.EditPost(post);
         }
 
         // POST: api/Posts
         [HttpPost]
-        public ActionResult<Post> AddPost([FromBody]Post post)
+        public ActionResult<Post> AddPost([FromBody]PostRequest post)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

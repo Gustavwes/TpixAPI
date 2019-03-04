@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
@@ -36,7 +37,7 @@ namespace TpixAPI.Controllers
 
         //POST api/topic
         [HttpPost]
-        public void PostTopic([FromBody]Topic topic)
+        public void PostTopic([FromBody]TopicRequest topic)
         {
             _topicRepository.AddTopic(topic);
             _topicRepository.Save();
@@ -44,7 +45,7 @@ namespace TpixAPI.Controllers
 
         //PUT api/topic
         [HttpPut]
-        public Task<bool> EditTopic([FromBody]Topic topic)
+        public Task<bool> EditTopic([FromBody]TopicRequest topic)
         {
             return _topicRepository.EditTopic(topic);
         }

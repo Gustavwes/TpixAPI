@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 
 namespace TpixAPI.Services
 {
@@ -16,15 +17,21 @@ namespace TpixAPI.Services
         {
             _context = context;
         }
-        public async Task<Category> AddCategoryAsync(Category category)
+        public async Task<CategoryRequest> AddCategoryAsync(CategoryRequest category)
         {
 
             if (!CategoryExistsByTitle(category.Title))
             {
-                _context.Category.Add(category);
+                _context.Category.Add(new Category()
+                {
+                    Description = category.Description,
+                    FkCreatedBy = category.FkCreatedBy,
+                    ImgUrl = category.ImgUrl,
+                    Title = category.Title
+                });
                 await _context.SaveChangesAsync();
             }
-
+            //should return categoryResponse
             return category;
         }
         public bool CategoryExistsById(int id)
@@ -35,7 +42,7 @@ namespace TpixAPI.Services
         {
             return _context.Category.Any(e => e.Title == title);
         }
-        public async Task<bool> EditCategoryAsync(Category category)
+        public async Task<bool> EditCategoryAsync(CategoryRequest category)
         {
             var entity = await _context.Category.FindAsync(category.Id);
             if (entity != null)

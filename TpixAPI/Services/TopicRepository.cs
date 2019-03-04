@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 
 namespace TpixAPI.Services
 {
@@ -16,14 +17,21 @@ namespace TpixAPI.Services
         {
             _context = context;
         }
-        public void AddTopic(Topic topic)
+        public void AddTopic(TopicRequest topic)
         {
-            topic.CreatedAt = DateTime.UtcNow;
-            _context.Topic.Add(topic);
+            _context.Topic.Add(new Topic()
+            {
+                CreatedAt = DateTime.UtcNow,
+                FkCreatedBy = topic.FkCreatedBy,
+                FkCategoryId = topic.FkCategoryId,
+                ImgUrl = topic.ImgUrl,
+                MainBody = topic.MainBody,
+                Title = topic.Title
+            });
             _context.SaveChanges();
         }
 
-        public async Task<bool> EditTopic(Topic topic)
+        public async Task<bool> EditTopic(TopicRequest topic)
         {
             var entity = await _context.Topic.FindAsync(topic.Id);
             if (entity != null)

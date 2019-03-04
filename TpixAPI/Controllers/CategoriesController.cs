@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
@@ -45,7 +46,7 @@ namespace TpixAPI.Controllers
 
         // PUT: api/Categories
         [HttpPut]
-        public async Task<ActionResult<bool>> UpdateCategory([FromBody]Category category)
+        public async Task<ActionResult<bool>> UpdateCategory([FromBody]CategoryRequest category)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -54,7 +55,7 @@ namespace TpixAPI.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory([FromBody]Category category)
+        public async Task<ActionResult<Category>> PostCategory([FromBody]CategoryRequest category)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 
 namespace TpixAPI.Services
 {
@@ -14,14 +15,13 @@ namespace TpixAPI.Services
         {
             _context = context;
         }
-        public void AddPost(Post post)
+        public void AddPost(PostRequest post)
         {
-            post.CreatedAt = DateTime.UtcNow;
-            _context.Post.Add(post);
+            _context.Post.Add(new Post() { CreatedAt = DateTime.UtcNow, FkCreatedBy = post.FkCreatedBy, FkParentTopicId = post.FkParentTopicId, MainBody = post.MainBody });
             _context.SaveChanges();
         }
 
-        public async Task<bool> EditPost(Post post)
+        public async Task<bool> EditPost(PostRequest post)
         {
             var entity = await _context.Post.FindAsync(post.Id);
             if (entity != null)
