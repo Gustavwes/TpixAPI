@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TpixAPI.Models;
@@ -15,24 +16,26 @@ namespace TpixAPI.Controllers
     public class TopicController : ControllerBase
     {
         private readonly ITopicRepository _topicRepository;
-        public TopicController(ITopicRepository topicRepository)
+        private readonly IMapper _mapper;
+        public TopicController(ITopicRepository topicRepository, IMapper mapper)
         {
             _topicRepository = topicRepository;
+            _mapper = mapper;
         }
 
 
         // GET api/topic/5
         [HttpGet("{id}")]
-        public Topic GetTopic([FromRoute]int id)
+        public TopicRequest GetTopic([FromRoute]int id)
         {
-            return _topicRepository.GetTopicById(id);
+            return _mapper.Map<TopicRequest>(_topicRepository.GetTopicById(id));
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetTopicsForCategory/{categoryid}")]
-        public ActionResult<IEnumerable<Topic>> GetAllPostsForTopic([FromRoute]int categoryid)
+        public ActionResult<IEnumerable<TopicRequest>> GetAllPostsForTopic([FromRoute]int categoryid)
         {
-            return _topicRepository.GetAllTopicsForCategoryById(categoryid);
+            return _mapper.Map<List<TopicRequest>>(_topicRepository.GetAllTopicsForCategoryById(categoryid));
         }
 
         //POST api/topic
@@ -52,10 +55,10 @@ namespace TpixAPI.Controllers
 
         //Delete api/topic/5
         [HttpDelete("{id}")]
-        public Task<Topic> DeleteTopic([FromRoute]int id)
+        public TopicRequest DeleteTopic([FromRoute]int id)
         {
             //returns deleted topic for confirmation message
-            return _topicRepository.RemoveTopicById(id);
+            return _mapper.Map<TopicRequest>(_topicRepository.RemoveTopicById(id));
         }
 
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TpixAPI</name>
+    </assembly>
+    <members>
+        <member name="F:TpixAPI.Models.Requests.PostRequest._mainBody">
+            <summary>
+            Doesn't need to be included
+            </summary>
+            <example>10</example>
+        </member>
+    </members>
+</doc>

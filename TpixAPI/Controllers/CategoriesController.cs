@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,22 +17,25 @@ namespace TpixAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoryRepository categoryRepository)
+        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryRequest>>> GetAllCategories()
         {
-            return await _categoryRepository.GetAllCategoriesAsync();
+            var result = await _categoryRepository.GetAllCategoriesAsync();
+            return _mapper.Map<List<CategoryRequest>>(result);
         }
 
         // GET: api/Categories/query
         [HttpGet("{titleQuery}")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryByTitleQuery([FromRoute]string titleQuery)
+        public async Task<ActionResult<IEnumerable<CategoryRequest>>> GetCategoryByTitleQuery([FromRoute]string titleQuery)
         {
             var results = await _categoryRepository.GetCategoriesByTitleAsync(titleQuery);
             //var category = await _context.Category.FindAsync(id);
@@ -41,10 +45,10 @@ namespace TpixAPI.Controllers
                 return NotFound();
             }
 
-            return results;
+            return _mapper.Map<List<CategoryRequest>>(results);
         }
         [HttpGet("GetCategoryById/{id}")]
-        public  ActionResult<Category> GetCategoryById([FromRoute]int id)
+        public  ActionResult<CategoryRequest> GetCategoryById([FromRoute]int id)
         {
             var result = _categoryRepository.GetCategoryById(id);
             //var category = await _context.Category.FindAsync(id);
@@ -54,7 +58,7 @@ namespace TpixAPI.Controllers
                 return NotFound();
             }
 
-            return result;
+            return _mapper.Map<CategoryRequest>(result);
         }
 
         // PUT: api/Categories
@@ -68,7 +72,7 @@ namespace TpixAPI.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory([FromBody]CategoryRequest category)
+        public async Task<ActionResult<CategoryRequest>> PostCategory([FromBody]CategoryRequest category)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -78,11 +82,11 @@ namespace TpixAPI.Controllers
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Category>> DeleteCategory([FromRoute]int id)
+        public async Task<ActionResult<CategoryRequest>> DeleteCategory([FromRoute]int id)
         {
             var category = await _categoryRepository.RemoveCategoryByIdAsync(id);
 
-            return category;
+            return _mapper.Map<CategoryRequest>(category);
         }
 
     }
