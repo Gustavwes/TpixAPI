@@ -22,14 +22,14 @@ namespace TpixAPI.Controllers
 
         // GET api/topic/5
         [HttpGet("{id}")]
-        public Topic GetTopic(int id)
+        public Topic GetTopic([FromRoute]int id)
         {
             return _topicRepository.GetTopicById(id);
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetTopicsForCategory/{categoryid}")]
-        public ActionResult<IEnumerable<Topic>> GetAllPostsForTopic(int categoryid)
+        public ActionResult<IEnumerable<Topic>> GetAllPostsForTopic([FromRoute]int categoryid)
         {
             return _topicRepository.GetAllTopicsForCategoryById(categoryid);
         }
@@ -44,14 +44,14 @@ namespace TpixAPI.Controllers
 
         //PUT api/topic
         [HttpPut]
-        public Task<bool> EditTopic(Topic topic)
+        public Task<bool> EditTopic([FromBody]Topic topic)
         {
             return _topicRepository.EditTopic(topic);
         }
 
         //Delete api/topic/5
         [HttpDelete("{id}")]
-        public Task<Topic> DeleteTopic(int id)
+        public Task<Topic> DeleteTopic([FromRoute]int id)
         {
             //returns deleted topic for confirmation message
             return _topicRepository.RemoveTopicById(id);

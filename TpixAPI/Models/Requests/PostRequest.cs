@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TpixAPI.Models
+namespace TpixAPI.Models.Requests
 {
-    public partial class Post
+    public class PostRequest
     {
-        public Post()
-        {
-            Report = new HashSet<Report>();
-        }
-
         public int Id { get; set; }
         [Required]
         public string MainBody { get; set; }
@@ -20,9 +17,5 @@ namespace TpixAPI.Models
         public int FkParentTopicId { get; set; }
         [Required]
         public int FkCreatedBy { get; set; }
-
-        public virtual Member FkCreatedByNavigation { get; set; }
-        public virtual Topic FkParentTopic { get; set; }
-        public virtual ICollection<Report> Report { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace TpixAPI.Controllers
 
         // GET: api/Categories/query
         [HttpGet("{titleQuery}")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryByTitleQuery(string titleQuery)
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryByTitleQuery([FromRoute]string titleQuery)
         {
             var results = await _categoryRepository.GetCategoriesByTitleAsync(titleQuery);
             //var category = await _context.Category.FindAsync(id);
@@ -45,22 +45,26 @@ namespace TpixAPI.Controllers
 
         // PUT: api/Categories
         [HttpPut]
-        public async Task<ActionResult<bool>> UpdateCategory(Category category)
+        public async Task<ActionResult<bool>> UpdateCategory([FromBody]Category category)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             return await _categoryRepository.EditCategoryAsync(category);
         }
 
         // POST: api/Categories
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategory([FromBody]Category category)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var result = await _categoryRepository.AddCategoryAsync(category);
             return CreatedAtAction("GetCategoryById", new { id = result.Id }, result);
         }
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Category>> DeleteCategory(int id)
+        public async Task<ActionResult<Category>> DeleteCategory([FromRoute]int id)
         {
             var category = await _categoryRepository.RemoveCategoryByIdAsync(id);
 

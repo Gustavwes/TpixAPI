@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 
 namespace TpixAPI.Controllers
@@ -31,7 +32,7 @@ namespace TpixAPI.Controllers
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public ActionResult<Member> GetMemberById(int id)
+        public ActionResult<Member> GetMemberById([FromRoute]int id)
         {
             var member = _memberRepository.GetMember(id);
             if (member == null)
@@ -44,30 +45,35 @@ namespace TpixAPI.Controllers
 
         // GET: api/Members
         [HttpGet("SearchMembers/")]
-        public ActionResult<List<Member>> SearchMembers(Member member) //send object with username and/or email
+        public ActionResult<List<Member>> SearchMembers([FromBody]MemberRequest member) //send object with username and/or email
         {
+            //should be made to a SearchMemberRequest object in the future
             return _memberRepository.SearchMembers(member);
         }
 
         //// PUT: api/Members
         [HttpPut]
-        public async Task<ActionResult<bool>> EditMember(Member member)
+        public async Task<ActionResult<bool>> EditMember([FromBody]MemberRequest member)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             return await _memberRepository.EditMember(member); 
         }
 
         // POST: api/Members
         [HttpPost]
-        public ActionResult<Member> AddMember(Member member)
+        public ActionResult<MemberRequest> AddMember([FromBody]MemberRequest member)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _memberRepository.CreateMember(member);
 
-            return CreatedAtAction("GetMember", new { id = member.Id }, member);
+            return member;
         }
 
         //// DELETE: api/Members/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Member>> DeleteMember(int id)
+        public async Task<ActionResult<Member>> DeleteMember([FromRoute]int id)
         {
             var result = await _memberRepository.RemoveMemberById(id);
 

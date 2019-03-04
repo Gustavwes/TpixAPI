@@ -23,7 +23,7 @@ namespace TpixAPI.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public ActionResult<Post> GetPostById(int id)
+        public ActionResult<Post> GetPostById([FromRoute]int id)
         {
             var post = _postRepository.GetPostById(id);
             return post;
@@ -31,22 +31,24 @@ namespace TpixAPI.Controllers
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetPostsForTopic/{topicid}")]
-        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic(int topicId)
+        public ActionResult<IEnumerable<Post>> GetAllPostsForTopic([FromRoute]int topicId)
         {
             return _postRepository.GetAllPostsForTopicById(topicId);
         }
 
         // PUT: api/Posts/
         [HttpPut]
-        public async Task<bool> EditPost(Post post)
+        public async Task<bool> EditPost([FromBody]Post post)
         {
             return await _postRepository.EditPost(post);
         }
 
         // POST: api/Posts
         [HttpPost]
-        public ActionResult<Post> AddPost(Post post)
+        public ActionResult<Post> AddPost([FromBody]Post post)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _postRepository.AddPost(post);
 
             return CreatedAtAction("GetPostById", new { id = post.Id }, post);
@@ -54,7 +56,7 @@ namespace TpixAPI.Controllers
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> DeletePost(int id)
+        public async Task<ActionResult<Post>> DeletePost([FromRoute]int id)
         {
             var post = await _postRepository.RemovePostById(id);
 

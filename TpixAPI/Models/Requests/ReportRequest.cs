@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TpixAPI.Models
+namespace TpixAPI.Models.Requests
 {
-    public partial class Report
+    public class ReportRequest
     {
         public int Id { get; set; }
         [Required]
@@ -16,10 +18,5 @@ namespace TpixAPI.Models
         [Required]
         public int FkReportingMemberId { get; set; }
         public string Reason { get; set; }
-
-        public virtual Member FkMemberReported { get; set; }
-        public virtual Post FkPost { get; set; }
-        public virtual Member FkReportingMember { get; set; }
-        public virtual Topic FkTopic { get; set; }
     }
 }
