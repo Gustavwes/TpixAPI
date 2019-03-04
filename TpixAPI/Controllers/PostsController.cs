@@ -27,10 +27,10 @@ namespace TpixAPI.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public ActionResult<Post> GetPostById([FromRoute]int id)
+        public ActionResult<PostRequest> GetPostById([FromRoute]int id)
         {
             var post = _postRepository.GetPostById(id);
-            return post;
+            return _mapper.Map<PostRequest>(post);
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
@@ -49,7 +49,7 @@ namespace TpixAPI.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public ActionResult<Post> AddPost([FromBody]PostRequest post)
+        public ActionResult<PostRequest> AddPost([FromBody]PostRequest post)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -60,11 +60,11 @@ namespace TpixAPI.Controllers
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> DeletePost([FromRoute]int id)
+        public async Task<ActionResult<PostRequest>> DeletePost([FromRoute]int id)
         {
             var post = await _postRepository.RemovePostById(id);
 
-            return post;
+            return _mapper.Map<PostRequest>(post);
         }
 
 
