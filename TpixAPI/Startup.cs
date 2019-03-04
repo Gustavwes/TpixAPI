@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using TpixAPI.Models;
 using TpixAPI.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using AutoMapper;
 
 namespace TpixAPI
 {
@@ -39,6 +40,7 @@ namespace TpixAPI
         {
             services.AddDbContext<TpixContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,23 +17,25 @@ namespace TpixAPI.Controllers
     public class MembersController : ControllerBase
     {
         private readonly IMemberRepository _memberRepository;
+        private readonly IMapper _mapper;
 
-        public MembersController(IMemberRepository memberRepository)
+        public MembersController(IMemberRepository memberRepository, IMapper mapper)
         {
             _memberRepository = memberRepository;
+            _mapper = mapper;
         }
 
 
         //// GET: api/Members
         [HttpGet]
-        public ActionResult<List<Member>> GetAllMembers()
+        public ActionResult<List<MemberRequest>> GetAllMembers()
         {
-            return _memberRepository.GetAllMembers();
+            return _mapper.Map<List<MemberRequest>>(_memberRepository.GetAllMembers());
         }
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public ActionResult<Member> GetMemberById([FromRoute]int id)
+        public ActionResult<MemberRequest> GetMemberById([FromRoute]int id)
         {
             var member = _memberRepository.GetMember(id);
             if (member == null)
@@ -40,15 +43,17 @@ namespace TpixAPI.Controllers
                 return NotFound();
             }
 
-            return member;
+            return _mapper.Map<MemberRequest>(member);
         }
 
         // GET: api/Members
         [HttpGet("SearchMembers/")]
-        public ActionResult<List<Member>> SearchMembers([FromBody]MemberRequest member) //send object with username and/or email
+        public ActionResult<List<MemberRequest>> SearchMembers([FromBody]MemberRequest member) //send object with username and/or email
         {
+            var result = _memberRepository.SearchMembers(member);
+            var returnList = _mapper.Map<List<MemberRequest>>(result);
             //should be made to a SearchMemberRequest object in the future
-            return _memberRepository.SearchMembers(member);
+            return returnList;
         }
 
         //// PUT: api/Members
@@ -73,11 +78,11 @@ namespace TpixAPI.Controllers
 
         //// DELETE: api/Members/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Member>> DeleteMember([FromRoute]int id)
+        public async Task<ActionResult<MemberRequest>> DeleteMember([FromRoute]int id)
         {
             var result = await _memberRepository.RemoveMemberById(id);
-
-            return result;
+            
+            return _mapper.Map<MemberRequest>(result);
         }
 
         //private bool MemberExists(int id)
