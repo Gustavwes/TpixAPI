@@ -28,7 +28,7 @@ namespace TpixAPI.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+                //optionsBuilder.UseSqlServer("connectionString here");
             }
         }
 

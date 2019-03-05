@@ -15,8 +15,8 @@ namespace TpixAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            FirstStartTestDataGenerator.GenerateFakeData(); //Only run ONCE!
-            FirstStartTestDataGenerator.GenerateFakePostsForTopics(1, 36, 20);
+            //FirstStartTestDataGenerator.GenerateFakeData(); //Only run ONCE!
+            //FirstStartTestDataGenerator.GenerateFakePostsForTopics(1, 36, 20);
             return new string[] { "value1", "value2" };
         }
         
