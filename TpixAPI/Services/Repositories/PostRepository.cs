@@ -70,5 +70,21 @@ namespace TpixAPI.Services.Repositories
             //return post for confirmation to user
             return post;
         }
+
+
+        //only an admin action as it deletes everything related downstream, might not want that to happen to e.g. reports
+        public bool RemovePostsByTopicId(int topicId) 
+        {
+            var concernedPosts = _context.Post.Where(p => p.FkParentTopicId == topicId);
+            foreach (var post in concernedPosts)
+            {
+                //Reports and votes need to be "downstreamed/deleted" as well
+                //Add remove votes in vote repo
+                //add remove Reports in report repo
+            }
+            _context.Post.RemoveRange(concernedPosts);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

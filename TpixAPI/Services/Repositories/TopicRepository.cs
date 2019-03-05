@@ -74,17 +74,8 @@ namespace TpixAPI.Services.Repositories
             }
 
             _context.Topic.Remove(topic);
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
-            
+            _context.SaveChanges(); //currently we can't delete topics if they have posts "beneath" them, need to sort this out properly first... perhaps extend
+            //this method to delete all posts below it and then do this?
 
             return topic;
 

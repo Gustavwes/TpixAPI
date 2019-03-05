@@ -16,6 +16,7 @@ namespace TpixAPI.Services.Repositories
         Task<Post> GetPostById(int id);
         Task<List<Post>> GetPostsByQuery(string postQuery);
         Task<Post> RemovePostById(int id);
+        bool RemovePostsByTopicId(int id);
 
     }
 }

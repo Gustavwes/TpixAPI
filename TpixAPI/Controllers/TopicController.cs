@@ -56,6 +56,7 @@ namespace TpixAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<TopicRequest> DeleteTopic([FromRoute]int id)
         {
+            //won't be able to delete Topic with posts below it at this point of time
             //returns deleted topic for confirmation message
             return _mapper.Map<TopicRequest>(await _topicRepository.RemoveTopicById(id));
         }
