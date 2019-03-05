@@ -31,6 +31,10 @@ namespace TpixAPI
                 .SetBasePath(_contentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
 
             Configuration = builder.Build();
         }
@@ -40,8 +44,10 @@ namespace TpixAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var apiKey = Configuration["ConnectionStrings:TpixDatabase"];
             services.AddDbContext<TpixContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
+                options.UseSqlServer(apiKey));
+            //options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>

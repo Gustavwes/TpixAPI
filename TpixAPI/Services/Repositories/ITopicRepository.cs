@@ -13,8 +13,8 @@ namespace TpixAPI.Services.Repositories
         void AddTopic(TopicRequest topic);
         Task<bool> EditTopic(TopicRequest topic);
         //List<Post> GetAllPostsForTopicById(int topicId); //should be moved to posts repository
-        List<Topic> GetAllTopicsForCategoryById(int id);
-        Topic GetTopicById(int id);
+        Task<List<Topic>> GetAllTopicsForCategoryById(int id);
+        Task<Topic> GetTopicById(int id);
         Task<Topic> RemoveTopicById(int id);
         bool Save();
     }

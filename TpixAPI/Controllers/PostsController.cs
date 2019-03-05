@@ -28,17 +28,17 @@ namespace TpixAPI.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public ActionResult<PostRequest> GetPostById([FromRoute]int id)
+        public async Task<ActionResult<PostRequest>> GetPostById([FromRoute]int id)
         {
-            var post = _postRepository.GetPostById(id);
+            var post = await _postRepository.GetPostById(id);
             return _mapper.Map<PostRequest>(post);
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetPostsForTopic/{topicid}")]
-        public ActionResult<List<PostRequest>> GetAllPostsForTopic([FromRoute]int topicId)
+        public async Task<ActionResult<List<PostRequest>>> GetAllPostsForTopic([FromRoute]int topicId)
         {
-            return _mapper.Map<List<PostRequest>>(_postRepository.GetAllPostsForTopicById(topicId));
+            return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
         }
 
         // PUT: api/Posts/

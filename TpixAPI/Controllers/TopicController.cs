@@ -26,16 +26,16 @@ namespace TpixAPI.Controllers
 
         // GET api/topic/5
         [HttpGet("{id}")]
-        public TopicRequest GetTopic([FromRoute]int id)
+        public async Task<TopicRequest> GetTopic([FromRoute]int id)
         {
-            return _mapper.Map<TopicRequest>(_topicRepository.GetTopicById(id));
+            return _mapper.Map<TopicRequest>(await _topicRepository.GetTopicById(id));
         }
 
         // GET: api/posts/GetPostsForTopic/{topicid}
         [HttpGet("GetTopicsForCategory/{categoryid}")]
-        public ActionResult<IEnumerable<TopicRequest>> GetAllPostsForTopic([FromRoute]int categoryid)
+        public async Task<ActionResult<IEnumerable<TopicRequest>>> GetAllPostsForTopic([FromRoute]int categoryid)
         {
-            return _mapper.Map<List<TopicRequest>>(_topicRepository.GetAllTopicsForCategoryById(categoryid));
+            return _mapper.Map<List<TopicRequest>>(await _topicRepository.GetAllTopicsForCategoryById(categoryid));
         }
 
         //POST api/topic
@@ -43,7 +43,6 @@ namespace TpixAPI.Controllers
         public void PostTopic([FromBody]TopicRequest topic)
         {
             _topicRepository.AddTopic(topic);
-            _topicRepository.Save();
         }
 
         //PUT api/topic
@@ -55,10 +54,10 @@ namespace TpixAPI.Controllers
 
         //Delete api/topic/5
         [HttpDelete("{id}")]
-        public TopicRequest DeleteTopic([FromRoute]int id)
+        public async Task<TopicRequest> DeleteTopic([FromRoute]int id)
         {
             //returns deleted topic for confirmation message
-            return _mapper.Map<TopicRequest>(_topicRepository.RemoveTopicById(id));
+            return _mapper.Map<TopicRequest>(await _topicRepository.RemoveTopicById(id));
         }
 
     }

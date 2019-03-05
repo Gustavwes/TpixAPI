@@ -29,16 +29,17 @@ namespace TpixAPI.Controllers
 
         //// GET: api/Members
         [HttpGet]
-        public ActionResult<List<MemberRequest>> GetAllMembers()
+        public async Task<ActionResult<List<MemberRequest>>> GetAllMembers()
         {
-            return _mapper.Map<List<MemberRequest>>(_memberRepository.GetAllMembers());
+            var returnedMembers = await _memberRepository.GetAllMembers();
+            return _mapper.Map<List<MemberRequest>>(returnedMembers);
         }
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public ActionResult<MemberRequest> GetMemberById([FromRoute]int id)
+        public async Task<ActionResult<MemberRequest>> GetMemberById([FromRoute]int id)
         {
-            var member = _memberRepository.GetMember(id);
+            var member = await _memberRepository.GetMember(id);
             if (member == null)
             {
                 return NotFound();

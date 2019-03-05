@@ -30,7 +30,7 @@ namespace TpixAPI.Services.Repositories
                 MainBody = topic.MainBody,
                 Title = topic.Title
             });
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
         public async Task<bool> EditTopic(TopicRequest topic)
@@ -43,30 +43,27 @@ namespace TpixAPI.Services.Repositories
                 entity.ImgUrl = topic.ImgUrl;
                 entity.MainBody = topic.MainBody;
                 entity.Title = topic.Title;
-                //_context.Topic.Update(topic);
-                var test = _context.Topic.Update(entity);
-                var test2 = test.State;
-                var test3 =_context.SaveChanges();
+                var returnState = _context.Topic.Update(entity).State;
+                _context.SaveChanges();
                 
-                return test2 == EntityState.Modified; //on success it returns true, else false
-                //return true;
+                return returnState == EntityState.Modified; //on success it returns true, else false
             }
 
             return false;
         }
 
-        public List<Topic> GetAllTopicsForCategoryById(int id)
+        public async Task<List<Topic>> GetAllTopicsForCategoryById(int id)
         {
             var matchingTopics = _context.Category
                     .Where(c => c.Id == id)
                 .SelectMany(category => category.Topic)
                 .OrderBy(topic => topic.CreatedAt)
-                .ToList();
-            return matchingTopics;
+                .ToListAsync();
+            return await matchingTopics;
         }
-        public Topic GetTopicById(int id)
+        public Task<Topic> GetTopicById(int id)
         {
-            return _context.Topic.Find(id);
+            return _context.Topic.FindAsync(id);
         }
         public async Task<Topic> RemoveTopicById(int id)
         {
@@ -77,7 +74,17 @@ namespace TpixAPI.Services.Repositories
             }
 
             _context.Topic.Remove(topic);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            
 
             return topic;
 

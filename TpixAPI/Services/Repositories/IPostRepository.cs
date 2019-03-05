@@ -12,9 +12,9 @@ namespace TpixAPI.Services.Repositories
     {
         void AddPost(PostRequest post);
         Task<bool> EditPost(PostRequest post);
-        List<Post> GetAllPostsForTopicById(int topicId);
-        Post GetPostById(int id);
-        List<Post> GetPostsByQuery(string postQuery);
+        Task<List<Post>> GetAllPostsForTopicById(int topicId);
+        Task<Post> GetPostById(int id);
+        Task<List<Post>> GetPostsByQuery(string postQuery);
         Task<Post> RemovePostById(int id);
 
     }

@@ -53,7 +53,7 @@ namespace TpixAPI.Services.Repositories
                 entity.ImgUrl = category.ImgUrl;
                 entity.Title = category.Title;
                 _context.Category.Update(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
 
@@ -65,14 +65,14 @@ namespace TpixAPI.Services.Repositories
             return await _context.Category.ToListAsync();
         }
 
-        public Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
+        public async Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
             var matchingCategories = _context.Category.Where(c => c.Title.Contains(queryTitle));
-            return matchingCategories.ToListAsync();
+            return await matchingCategories.ToListAsync();
         }
-        public Category GetCategoryById(int categoryId)
+        public async Task<Category> GetCategoryById(int categoryId)
         {
-            return _context.Category.FirstOrDefault(c => c.Id == categoryId);
+            return await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
         }
 
         public async Task<Category> RemoveCategoryByIdAsync(int id)

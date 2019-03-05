@@ -49,9 +49,9 @@ namespace TpixAPI.Controllers
             return _mapper.Map<List<CategoryRequest>>(results);
         }
         [HttpGet("GetCategoryById/{id}")]
-        public  ActionResult<CategoryRequest> GetCategoryById([FromRoute]int id)
+        public async Task<ActionResult<CategoryRequest>> GetCategoryById([FromRoute]int id)
         {
-            var result = _categoryRepository.GetCategoryById(id);
+            var result = await _categoryRepository.GetCategoryById(id);
             //var category = await _context.Category.FindAsync(id);
 
             if (result == null)

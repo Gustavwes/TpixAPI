@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TpixAPI.Data;
 using TpixAPI.Models;
 using TpixAPI.Models.Database;
@@ -29,8 +30,8 @@ namespace TpixAPI.Services.Repositories
             if (entity != null)
             {
                 entity.EditedAt = DateTime.UtcNow;
-                entity.FkParentTopicId = post.FkParentTopicId;
-                entity.MainBody = post.MainBody;
+                entity.FkParentTopicId = post.FkParentTopicId == 0 ? entity.FkParentTopicId : post.FkParentTopicId;
+                entity.MainBody = post.MainBody == String.Empty ? entity.MainBody : post.MainBody;
                 _context.Post.Update(entity);
                 _context.SaveChanges();
                 return true;
@@ -39,22 +40,22 @@ namespace TpixAPI.Services.Repositories
             return false;
         }
 
-        public List<Post> GetAllPostsForTopicById(int topicId)
+        public Task<List<Post>> GetAllPostsForTopicById(int topicId)
         {
             return _context.Topic.Where(x => x.Id == topicId)
                 .SelectMany(topic => topic.Post)
                 .OrderBy(post => post.CreatedAt)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Post GetPostById(int id)
+        public Task<Post> GetPostById(int id)
         {
-            return _context.Post.Find(id);
+            return _context.Post.FindAsync(id);
         }
 
-        public List<Post> GetPostsByQuery(string postQuery)
+        public Task<List<Post>> GetPostsByQuery(string postQuery)
         {
-            return _context.Post.Where(post => post.MainBody.Contains(postQuery)).ToList();
+            return _context.Post.Where(post => post.MainBody.Contains(postQuery)).ToListAsync();
         }
 
         public async Task<Post> RemovePostById(int id)

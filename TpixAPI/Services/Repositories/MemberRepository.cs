@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TpixAPI.Data;
 using TpixAPI.Models;
 using TpixAPI.Models.Database;
@@ -19,16 +20,16 @@ namespace TpixAPI.Services.Repositories
         public void CreateMember(MemberRequest member)
         {
             _context.Member.Add(new Member(){Email = member.Email, Username = member.Username});
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        public List<Member> GetAllMembers() //will need some kind of pagination here skip/take etc.
+        public async Task<List<Member>> GetAllMembers() //will need some kind of pagination here skip/take etc.
         {
-            return _context.Member.ToList();
+            return await _context.Member.ToListAsync();
         }
-        public Member GetMember(int id)
+        public Task<Member> GetMember(int id)
         {
-            return _context.Member.Find(id);
+            return _context.Member.FindAsync(id);
         }
 
         public async Task<bool> EditMember(MemberRequest member)
