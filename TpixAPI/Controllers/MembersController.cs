@@ -58,7 +58,7 @@ namespace TpixAPI.Controllers
             return returnList;
         }
 
-        //// PUT: api/Members
+        // PUT: api/Members
         [HttpPut]
         public async Task<ActionResult<bool>> EditMember([FromBody]MemberRequest member)
         {
@@ -78,7 +78,7 @@ namespace TpixAPI.Controllers
             return member;
         }
 
-        //// DELETE: api/Members/5
+        // DELETE: api/Members/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<MemberRequest>> DeleteMember([FromRoute]int id)
         {
