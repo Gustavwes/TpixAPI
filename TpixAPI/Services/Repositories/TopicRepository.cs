@@ -52,10 +52,30 @@ namespace TpixAPI.Services.Repositories
             return false;
         }
 
-        public async Task<List<Topic>> GetAllTopicsForCategoryById(int id)
+        public async Task<List<Topic>> GetAllTopicsForCategoryById(int categoryId)
         {
+            var topicsWithMember = _context.Category.Where(x => x.Id == categoryId)
+                .SelectMany(category => category.Topic)
+                .Select(x => new Topic()
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    ImgUrl = x.ImgUrl,
+                    MainBody = x.MainBody,
+                    CreatedAt = x.CreatedAt,
+                    EditedAt = x.EditedAt, // HAR INTE TESTAT DET HÄR ÄNNU!
+                    FkCategoryId = x.FkCategoryId,
+                    FkCreatedBy = x.FkCreatedBy,
+                    FkCreatedByNavigation = new Member()
+                    {
+                        Id = x.FkCreatedByNavigation.Id,
+                        Username = x.FkCreatedByNavigation.Username,
+                        Email = x.FkCreatedByNavigation.Email
+                    }
+                });
+            return await topicsWithMember.ToListAsync();
             var matchingTopics = _context.Category
-                    .Where(c => c.Id == id)
+                    .Where(c => c.Id == categoryId)
                 .SelectMany(category => category.Topic)
                 .OrderBy(topic => topic.CreatedAt)
                 .ToListAsync();
