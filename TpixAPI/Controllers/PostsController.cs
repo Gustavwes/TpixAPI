@@ -26,6 +26,13 @@ namespace TpixAPI.Controllers
             _mapper = mapper;
         }
 
+        // GET: api/posts/GetPostsForTopic/{topicid}
+        [HttpGet("GetPostsForTopic/{topicid}")]
+        public async Task<ActionResult<List<PostRequest>>> GetAllPostsForTopic([FromRoute]int topicId)
+        {
+            return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
+        }
+        
         // GET: api/Posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PostRequest>> GetPostById([FromRoute]int id)
@@ -34,12 +41,6 @@ namespace TpixAPI.Controllers
             return _mapper.Map<PostRequest>(post);
         }
 
-        // GET: api/posts/GetPostsForTopic/{topicid}
-        [HttpGet("GetPostsForTopic/{topicid}")]
-        public async Task<ActionResult<List<PostRequest>>> GetAllPostsForTopic([FromRoute]int topicId)
-        {
-            return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
-        }
 
         // PUT: api/Posts/
         [HttpPut]

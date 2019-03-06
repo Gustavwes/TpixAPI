@@ -45,19 +45,19 @@ namespace TpixAPI
         public void ConfigureServices(IServiceCollection services)
         {
             var apiKey = Configuration["ConnectionStrings:TpixDatabase"];
-            services.AddDbContext<TpixContext>(options =>
-                options.UseSqlServer(apiKey));
             //options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
             services.AddAutoMapper();
+            services.AddDbContext<TpixContext>(options =>
+                options.UseSqlServer(apiKey));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ITopicRepository, TopicRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Tpix API", Version = "v1" });
             });
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ITopicRepository, TopicRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<IMemberRepository, MemberRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

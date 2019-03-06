@@ -64,15 +64,18 @@ namespace TpixAPI.Services.Repositories
         {
             return await _context.Category.ToListAsync();
         }
+        public async Task<Category> GetCategoryById(int categoryId)
+        {
+
+            var test = _context.Category.Include(c => c.Topic).FirstOrDefault(c => c.Id == categoryId);
+            return test;
+            return await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
+        }
 
         public async Task<List<Category>> GetCategoriesByTitleAsync(string queryTitle)
         {
             var matchingCategories = _context.Category.Where(c => c.Title.Contains(queryTitle));
             return await matchingCategories.ToListAsync();
-        }
-        public async Task<Category> GetCategoryById(int categoryId)
-        {
-            return await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
         }
 
         public async Task<Category> RemoveCategoryByIdAsync(int id)

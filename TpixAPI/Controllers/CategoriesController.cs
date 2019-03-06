@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TpixAPI.Models;
+using TpixAPI.Models.Database;
 using TpixAPI.Models.Requests;
 using TpixAPI.Services;
 using TpixAPI.Services.Repositories;
@@ -34,6 +35,22 @@ namespace TpixAPI.Controllers
             return _mapper.Map<List<CategoryRequest>>(result);
         }
 
+        // GET: api/GetCategoryById/{id}
+        [HttpGet("GetCategoryById/{id}")]
+        public async Task<ActionResult<CategoryRequest>> GetCategoryById([FromRoute]int id)
+        {
+            var result = await _categoryRepository.GetCategoryById(id);
+            //var test = _mapper.Map<CategoryRequest>(result);
+            //test.Topics = _mapper.Map<List<TopicRequest>>(test.Topics); //oklart om denna behövdes
+            //return test;
+            //var category = await _context.Category.FindAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<CategoryRequest>(result);
+        }
         // GET: api/Categories/query
         [HttpGet("{titleQuery}")]
         public async Task<ActionResult<IEnumerable<CategoryRequest>>> GetCategoryByTitleQuery([FromRoute]string titleQuery)
@@ -47,19 +64,6 @@ namespace TpixAPI.Controllers
             }
 
             return _mapper.Map<List<CategoryRequest>>(results);
-        }
-        [HttpGet("GetCategoryById/{id}")]
-        public async Task<ActionResult<CategoryRequest>> GetCategoryById([FromRoute]int id)
-        {
-            var result = await _categoryRepository.GetCategoryById(id);
-            //var category = await _context.Category.FindAsync(id);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return _mapper.Map<CategoryRequest>(result);
         }
 
         // PUT: api/Categories

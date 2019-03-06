@@ -24,6 +24,13 @@ namespace TpixAPI.Controllers
         }
 
 
+        // GET: api/posts/GetPostsForTopic/{topicid}
+        [HttpGet("GetTopicsForCategory/{categoryid}")]
+        public async Task<ActionResult<IEnumerable<TopicRequest>>> GetAllPostsForTopic([FromRoute]int categoryid)
+        {
+            return _mapper.Map<List<TopicRequest>>(await _topicRepository.GetAllTopicsForCategoryById(categoryid));
+        }
+       
         // GET api/topic/5
         [HttpGet("{id}")]
         public async Task<TopicRequest> GetTopic([FromRoute]int id)
@@ -31,11 +38,11 @@ namespace TpixAPI.Controllers
             return _mapper.Map<TopicRequest>(await _topicRepository.GetTopicById(id));
         }
 
-        // GET: api/posts/GetPostsForTopic/{topicid}
-        [HttpGet("GetTopicsForCategory/{categoryid}")]
-        public async Task<ActionResult<IEnumerable<TopicRequest>>> GetAllPostsForTopic([FromRoute]int categoryid)
+        //PUT api/topic
+        [HttpPut]
+        public Task<bool> EditTopic([FromBody]TopicRequest topic)
         {
-            return _mapper.Map<List<TopicRequest>>(await _topicRepository.GetAllTopicsForCategoryById(categoryid));
+            return _topicRepository.EditTopic(topic);
         }
 
         //POST api/topic
@@ -43,13 +50,6 @@ namespace TpixAPI.Controllers
         public void PostTopic([FromBody]TopicRequest topic)
         {
             _topicRepository.AddTopic(topic);
-        }
-
-        //PUT api/topic
-        [HttpPut]
-        public Task<bool> EditTopic([FromBody]TopicRequest topic)
-        {
-            return _topicRepository.EditTopic(topic);
         }
 
         //Delete api/topic/5

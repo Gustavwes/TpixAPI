@@ -22,16 +22,6 @@ namespace TpixAPI.Services.Repositories
             _context.Member.Add(new Member(){Email = member.Email, Username = member.Username});
             _context.SaveChangesAsync();
         }
-
-        public async Task<List<Member>> GetAllMembers() //will need some kind of pagination here skip/take etc.
-        {
-            return await _context.Member.ToListAsync();
-        }
-        public Task<Member> GetMember(int id)
-        {
-            return _context.Member.FindAsync(id);
-        }
-
         public async Task<bool> EditMember(MemberRequest member)
         {
             var entity =  await _context.Member.FindAsync(member.Id);
@@ -45,6 +35,15 @@ namespace TpixAPI.Services.Repositories
             }
 
             return false;
+        }
+
+        public async Task<List<Member>> GetAllMembers() //will need some kind of pagination here skip/take etc.
+        {
+            return await _context.Member.ToListAsync();
+        }
+        public Task<Member> GetMember(int id)
+        {
+            return _context.Member.FindAsync(id);
         }
 
         public async Task<Member> RemoveMemberById(int id)
