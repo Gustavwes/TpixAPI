@@ -30,9 +30,11 @@ namespace TpixAPI.Controllers
         [HttpGet("GetPostsForTopic/{topicid}")]
         public async Task<ActionResult<List<PostRequest>>> GetAllPostsForTopic([FromRoute]int topicId)
         {
-            //var test = _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
-            //return test;
-            return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
+          
+            var postsWithMembers = _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
+            //Get a list of posts, that each contain a member under the FkCreatedByNavigation name... n
+            return postsWithMembers;
+            //return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
         }
         
         // GET: api/Posts/5

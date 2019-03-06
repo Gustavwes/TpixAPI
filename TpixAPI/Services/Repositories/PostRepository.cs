@@ -40,19 +40,47 @@ namespace TpixAPI.Services.Repositories
             return false;
         }
 
-        public Task<List<Post>> GetAllPostsForTopicById(int topicId)
+        public async Task<List<Post>> GetAllPostsForTopicById(int topicId)
         {
-            //var test = _context.Topic.Where(x => x.Id == topicId)
-            //    .SelectMany(topic => topic.Post).Include(m => m.FkCreatedByNavigation)
+            //var test4 = _context.Topic.SingleOrDefault(x => x.Id == topicId)?.Post.Select(x => new Post()
+            //{
+            //    Id = x.Id,
+            //    MainBody = x.MainBody,
+            //    CreatedAt = x.CreatedAt,
+            //    EditedAt = x.EditedAt,
+            //    FkParentTopicId = x.FkParentTopicId,
+            //    FkCreatedBy = x.FkCreatedBy,
+            //    FkCreatedByNavigation = new Member()
+            //    {
+            //        Id = x.FkCreatedByNavigation.Id,
+            //        Username = x.FkCreatedByNavigation.Username,
+            //        Email = x.FkCreatedByNavigation.Email
+            //    }
+            //});
+            var postsWithMembers = _context.Topic.Where(x => x.Id == topicId)
+                .SelectMany(topic => topic.Post)
+                .Select(x => new Post()
+                {
+                    Id = x.Id,
+                    MainBody = x.MainBody,
+                    CreatedAt = x.CreatedAt,
+                    EditedAt = x.EditedAt,
+                    FkParentTopicId = x.FkParentTopicId,
+                    FkCreatedBy = x.FkCreatedBy,
+                    FkCreatedByNavigation = new Member()
+                    {
+                        Id = x.FkCreatedByNavigation.Id,
+                        Username = x.FkCreatedByNavigation.Username,
+                        Email = x.FkCreatedByNavigation.Email
+                    }
+                });
+           
+
+            return await postsWithMembers.ToListAsync();
+            //return _context.Topic.Where(x => x.Id == topicId)
+            //    .SelectMany(topic => topic.Post).Include(p => p.FkCreatedByNavigation)
             //    .OrderBy(post => post.CreatedAt)
             //    .ToListAsync();
-            //var test2 = test.Result;
-
-            //return test;
-            return _context.Topic.Where(x => x.Id == topicId)
-                .SelectMany(topic => topic.Post)
-                .OrderBy(post => post.CreatedAt)
-                .ToListAsync();
         }
 
         public Task<Post> GetPostById(int id)
@@ -80,7 +108,7 @@ namespace TpixAPI.Services.Repositories
 
 
         //only an admin action as it deletes everything related downstream, might not want that to happen to e.g. reports
-        public bool RemovePostsByTopicId(int topicId) 
+        public bool RemovePostsByTopicId(int topicId)
         {
             var concernedPosts = _context.Post.Where(p => p.FkParentTopicId == topicId);
             foreach (var post in concernedPosts)

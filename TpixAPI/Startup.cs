@@ -35,7 +35,7 @@ namespace TpixAPI
             {
                 builder.AddUserSecrets<Startup>();
             }
-
+            //builder.AddUserSecrets<Startup>();
             Configuration = builder.Build();
         }
 
@@ -49,6 +49,7 @@ namespace TpixAPI
             services.AddAutoMapper();
             services.AddDbContext<TpixContext>(options =>
                 options.UseSqlServer(apiKey));
+            //options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();

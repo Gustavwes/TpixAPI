@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TpixAPI.Models.Database;
 
 namespace TpixAPI.Models.Requests
@@ -18,6 +19,7 @@ namespace TpixAPI.Models.Requests
         public int FkParentTopicId { get; set; }
         [Required]
         public int FkCreatedBy { get; set; }
-        //public Member PostingMember { get; set; }
+        [JsonProperty(PropertyName = "CreatedByMember")]
+        public MemberRequest FkCreatedByNavigation { get; set; }
     }
 }
