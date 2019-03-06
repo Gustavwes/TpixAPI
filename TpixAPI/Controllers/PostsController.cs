@@ -30,6 +30,8 @@ namespace TpixAPI.Controllers
         [HttpGet("GetPostsForTopic/{topicid}")]
         public async Task<ActionResult<List<PostRequest>>> GetAllPostsForTopic([FromRoute]int topicId)
         {
+            //var test = _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
+            //return test;
             return _mapper.Map<List<PostRequest>>(await _postRepository.GetAllPostsForTopicById(topicId));
         }
         

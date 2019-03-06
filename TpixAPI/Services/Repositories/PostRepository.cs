@@ -42,6 +42,13 @@ namespace TpixAPI.Services.Repositories
 
         public Task<List<Post>> GetAllPostsForTopicById(int topicId)
         {
+            //var test = _context.Topic.Where(x => x.Id == topicId)
+            //    .SelectMany(topic => topic.Post).Include(m => m.FkCreatedByNavigation)
+            //    .OrderBy(post => post.CreatedAt)
+            //    .ToListAsync();
+            //var test2 = test.Result;
+
+            //return test;
             return _context.Topic.Where(x => x.Id == topicId)
                 .SelectMany(topic => topic.Post)
                 .OrderBy(post => post.CreatedAt)

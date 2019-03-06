@@ -67,8 +67,8 @@ namespace TpixAPI.Services.Repositories
         public async Task<Category> GetCategoryById(int categoryId)
         {
 
-            var test = _context.Category.Include(c => c.Topic).FirstOrDefault(c => c.Id == categoryId);
-            return test;
+            //var test = _context.Category.Include(c => c.Topic).FirstOrDefault(c => c.Id == categoryId);
+            //return test;
             return await _context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
         }
 

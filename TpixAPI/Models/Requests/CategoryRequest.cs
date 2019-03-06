@@ -17,6 +17,6 @@ namespace TpixAPI.Models.Requests
         public string ImgUrl { get; set; }
         [Required]
         public int FkCreatedBy { get; set; }
-        public List<TopicRequest> Topics { get; set; }
+        //public List<TopicRequest> Topics { get; set; }
     }
 }
