@@ -30,7 +30,7 @@ namespace TpixAPI.Services.Repositories
                 MainBody = topic.MainBody,
                 Title = topic.Title
             });
-            _context.SaveChangesAsync();
+           _context.SaveChanges();
         }
 
         public async Task<bool> EditTopic(TopicRequest topic)
