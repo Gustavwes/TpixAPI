@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TpixAPI.Models.Database;
 
 namespace TpixAPI.Models.Requests
 {
@@ -23,5 +24,6 @@ namespace TpixAPI.Models.Requests
         public int FkCreatedBy { get; set; }
         [JsonProperty(PropertyName = "CreatedByMember")]
         public MemberRequest FkCreatedByNavigation { get; set; }
+        public List<PostRequest> Post { get; set; }
     }
 }

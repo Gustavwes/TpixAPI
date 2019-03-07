@@ -27,7 +27,7 @@ namespace TpixAPI.Models.Database
 
         public virtual Category FkCategory { get; set; }
         public virtual Member FkCreatedByNavigation { get; set; }
-        public virtual ICollection<Post> Post { get; set; }
+        public virtual IEnumerable<Post> Post { get; set; }
         public virtual ICollection<Report> Report { get; set; }
     }
 }

@@ -63,7 +63,7 @@ namespace TpixAPI.Services.Repositories
                     ImgUrl = x.ImgUrl,
                     MainBody = x.MainBody,
                     CreatedAt = x.CreatedAt,
-                    EditedAt = x.EditedAt, // HAR INTE TESTAT DET HÄR ÄNNU!
+                    EditedAt = x.EditedAt, 
                     FkCategoryId = x.FkCategoryId,
                     FkCreatedBy = x.FkCreatedBy,
                     FkCreatedByNavigation = new Member()
@@ -74,16 +74,49 @@ namespace TpixAPI.Services.Repositories
                     }
                 });
             return await topicsWithMember.ToListAsync();
-            var matchingTopics = _context.Category
-                    .Where(c => c.Id == categoryId)
-                .SelectMany(category => category.Topic)
-                .OrderBy(topic => topic.CreatedAt)
-                .ToListAsync();
-            return await matchingTopics;
+            //var matchingTopics = _context.Category
+            //        .Where(c => c.Id == categoryId)
+            //    .SelectMany(category => category.Topic)
+            //    .OrderBy(topic => topic.CreatedAt)
+            //    .ToListAsync();
+            //return await matchingTopics;
         }
-        public Task<Topic> GetTopicById(int id)
+        public Task<Topic> GetTopicById(int topicId)
         {
-            return _context.Topic.FindAsync(id);
+            var returnTopic = _context.Topic.Where(t => t.Id == topicId).Include(p => p.Post)
+                .Include(m => m.FkCreatedByNavigation).Select(x => new Topic()
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    ImgUrl = x.ImgUrl,
+                    MainBody = x.MainBody,
+                    CreatedAt = x.CreatedAt,
+                    EditedAt = x.EditedAt,
+                    FkCategoryId = x.FkCategoryId,
+                    FkCreatedBy = x.FkCreatedBy,
+                    Post = x.Post.Select(post => new Post()
+                    {
+                        CreatedAt = post.CreatedAt,
+                        EditedAt = post.EditedAt,
+                        Id = post.Id,
+                        FkParentTopicId = post.FkParentTopicId,
+                        FkCreatedBy = post.FkCreatedBy,
+                        FkCreatedByNavigation = new Member()
+                        {
+                            Id = post.FkCreatedByNavigation.Id,
+                            Username = post.FkCreatedByNavigation.Username,
+                            Email = post.FkCreatedByNavigation.Email
+                        },
+                        MainBody = post.MainBody
+                    }),
+                    FkCreatedByNavigation = new Member()
+                    {
+                        Id = x.FkCreatedByNavigation.Id,
+                        Username = x.FkCreatedByNavigation.Username,
+                        Email = x.FkCreatedByNavigation.Email
+                    }
+                });
+            return returnTopic.FirstAsync();
         }
         public async Task<Topic> RemoveTopicById(int id)
         {
