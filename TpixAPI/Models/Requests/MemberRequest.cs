@@ -13,5 +13,6 @@ namespace TpixAPI.Models.Requests
         public string Username { get; set; }
         [Required]
         public string Email { get; set; }
+        public string IdentGuid { get; set; }
     }
 }

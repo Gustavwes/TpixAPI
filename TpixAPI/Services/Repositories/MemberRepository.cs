@@ -19,7 +19,7 @@ namespace TpixAPI.Services.Repositories
         }
         public void CreateMember(MemberRequest member)
         {
-            _context.Member.Add(new Member(){Email = member.Email, Username = member.Username});
+            _context.Member.Add(new Member(){Email = member.Email, Username = member.Username, IdentGuid = member.IdentGuid});
             _context.SaveChangesAsync();
         }
         public async Task<bool> EditMember(MemberRequest member)

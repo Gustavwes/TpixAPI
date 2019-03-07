@@ -71,7 +71,7 @@ namespace TpixAPI.Controllers
         [HttpPost]
         public ActionResult<MemberRequest> AddMember([FromBody]MemberRequest member)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || string.IsNullOrEmpty(member.IdentGuid))
                 return BadRequest(ModelState);
             _memberRepository.CreateMember(member);
 

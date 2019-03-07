@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TpixAPI.Models.Database
 {
@@ -20,6 +21,7 @@ namespace TpixAPI.Models.Database
         public string Username { get; set; }
         [Required]
         public string Email { get; set; }
+        public string IdentGuid { get; set; }
 
         public virtual ICollection<Category> Category { get; set; }
         public virtual ICollection<Post> Post { get; set; }
