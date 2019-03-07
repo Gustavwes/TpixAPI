@@ -16,5 +16,6 @@ namespace TpixAPI.Services.Repositories
         Task<List<Member>> GetAllMembers();
         Task<Member> RemoveMemberById(int id);
         List<Member> SearchMembers(MemberRequest member);
+        void UpdateMemberGuid(MemberRequest member);
     }
 }

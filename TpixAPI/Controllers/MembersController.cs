@@ -67,16 +67,24 @@ namespace TpixAPI.Controllers
             return await _memberRepository.EditMember(member); 
         }
 
+        // PUT: api/Members/UpdateMemberGuid
+        [HttpPut("UpdateMemberGuid/")]
+        public void UpdateMemberGuid([FromBody]MemberRequest member)
+        {
+            _memberRepository.UpdateMemberGuid(member);
+        } 
+
         // POST: api/Members
         [HttpPost]
         public ActionResult<MemberRequest> AddMember([FromBody]MemberRequest member)
         {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(member.IdentGuid))
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             _memberRepository.CreateMember(member);
 
             return member;
         }
+
 
         // DELETE: api/Members/5
         [HttpDelete("{id}")]
