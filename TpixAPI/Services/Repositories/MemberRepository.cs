@@ -17,10 +17,12 @@ namespace TpixAPI.Services.Repositories
         {
             _context = context;
         }
-        public void CreateMember(MemberRequest member)
+        public Member CreateMember(MemberRequest member)
         {
-            _context.Member.Add(new Member(){Email = member.Email, Username = member.Username});
+            var newMember = new Member() {Email = member.Email, Username = member.Username};
+            _context.Member.Add(newMember);
             _context.SaveChangesAsync();
+            return newMember;
         }
         public async Task<bool> EditMember(MemberRequest member)
         {

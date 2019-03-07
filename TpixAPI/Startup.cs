@@ -48,7 +48,7 @@ namespace TpixAPI
             //options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
             services.AddAutoMapper();
             services.AddDbContext<TpixContext>(options =>
-                options.UseSqlServer(apiKey));
+            options.UseSqlServer(apiKey));
             //options.UseSqlServer(Configuration.GetConnectionString("TpixDatabase")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<ICategoryRepository, CategoryRepository>();

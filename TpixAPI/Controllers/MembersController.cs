@@ -80,9 +80,8 @@ namespace TpixAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            _memberRepository.CreateMember(member);
-
-            return member;
+            var newMember =_memberRepository.CreateMember(member);
+            return _mapper.Map<MemberRequest>(newMember);
         }
 
 

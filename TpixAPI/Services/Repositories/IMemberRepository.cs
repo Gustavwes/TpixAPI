@@ -10,7 +10,7 @@ namespace TpixAPI.Services.Repositories
 {
     public interface IMemberRepository
     {
-        void CreateMember(MemberRequest member);
+        Member CreateMember(MemberRequest member);
         Task<bool> EditMember(MemberRequest member);
         Task<Member> GetMember(int id);
         Task<List<Member>> GetAllMembers();
