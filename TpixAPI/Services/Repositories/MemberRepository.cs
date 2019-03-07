@@ -19,9 +19,9 @@ namespace TpixAPI.Services.Repositories
         }
         public Member CreateMember(MemberRequest member)
         {
-            var newMember = new Member() {Email = member.Email, Username = member.Username};
+            var newMember = new Member() {Email = member.Email, Username = member.Username, SignedUpAt = DateTime.UtcNow};
             _context.Member.Add(newMember);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return newMember;
         }
         public async Task<bool> EditMember(MemberRequest member)
@@ -68,9 +68,9 @@ namespace TpixAPI.Services.Repositories
                 .ToList();
         }
 
-        public async void UpdateMemberGuid(MemberRequest member)
+        public void UpdateMemberGuid(MemberRequest member)
         {
-            var entity = await _context.Member.FindAsync(member.Id);
+            var entity = _context.Member.Find(member.Id);
             if (entity != null)
             {
                 entity.IdentGuid = member.IdentGuid;

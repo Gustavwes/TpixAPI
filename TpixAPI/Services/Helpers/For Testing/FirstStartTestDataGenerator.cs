@@ -17,7 +17,7 @@ namespace TpixAPI.Services.Helpers.For_Testing
             var context = new TpixContext();
             for (int i = 1; i < 10; i++)
             {
-                context.Member.Add(new Member() { Email = $"test{i}@person.com", Username = $"TestPerson{i}" });
+                context.Member.Add(new Member() { Email = $"test{i}@person.com", Username = $"TestPerson{i}", SignedUpAt = DateTime.UtcNow.AddDays(-i)});
                 context.SaveChanges();
                 context.Category.Add(new Category()
                 {

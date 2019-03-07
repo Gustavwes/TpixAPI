@@ -71,7 +71,8 @@ namespace TpixAPI.Services.Repositories
                     {
                         Id = x.FkCreatedByNavigation.Id,
                         Username = x.FkCreatedByNavigation.Username,
-                        Email = x.FkCreatedByNavigation.Email
+                        Email = x.FkCreatedByNavigation.Email,
+                        SignedUpAt = x.FkCreatedByNavigation.SignedUpAt
                     }
                 });
            

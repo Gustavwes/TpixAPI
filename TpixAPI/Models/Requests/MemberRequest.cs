@@ -14,5 +14,6 @@ namespace TpixAPI.Models.Requests
         [Required]
         public string Email { get; set; }
         public string IdentGuid { get; set; }
+        public DateTime SignedUpAt { get; set; }
     }
 }

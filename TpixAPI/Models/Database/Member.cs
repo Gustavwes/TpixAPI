@@ -22,6 +22,7 @@ namespace TpixAPI.Models.Database
         [Required]
         public string Email { get; set; }
         public string IdentGuid { get; set; }
+        public DateTime SignedUpAt { get; set; }
 
         public virtual ICollection<Category> Category { get; set; }
         public virtual ICollection<Post> Post { get; set; }
