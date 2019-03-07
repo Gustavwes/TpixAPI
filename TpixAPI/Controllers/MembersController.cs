@@ -69,6 +69,7 @@ namespace TpixAPI.Controllers
 
         // PUT: api/Members/UpdateMemberGuid
         [HttpPut("UpdateMemberGuid/")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public void UpdateMemberGuid([FromBody]MemberRequest member)
         {
             _memberRepository.UpdateMemberGuid(member);
